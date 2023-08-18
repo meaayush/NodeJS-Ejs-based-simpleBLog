@@ -1,0 +1,49 @@
+<html lang="en">
+<%- include("../partials/head.ejs") %>
+
+<body>
+  <%- include("../partials/nav.ejs") %>
+
+  <div class="blogs content">
+    <h2 class="BlogPageTitle">All Blogs <span>Created At</span></h2>
+
+
+    <% if (blogs.length > 0) { %>
+      <% blogs.forEach(blog => { %>
+        <div class="blogIndex">
+          <h3 class="title blogtitle"><%= blog.title %><a class="blogbut" href="/blogs/<%= blog._id%>">View</a></h3> 
+          <% const str = JSON.stringify(blog.createdAt);
+            const time = str.slice(12,20); 
+            let min = parseInt(str.slice(15,17)); 
+            let hour = parseInt(str.slice(12,14));
+    
+            min += 30;
+            hour += 5;
+            if(min >= 60){
+              min -= 60;
+              hour += 1;
+            }
+            if(hour >= 24){
+              hour -= 24;
+            }
+            if(min<10){
+              min='0'+min;
+            }
+            if(hour<10){
+              hour='0'+hour;
+            }
+
+          %>
+          <p class="snippet snipdtime"><%= blog.snippet %> <span class="dtime"><%= hour+':'+min %> &nbsp; <%= str.slice(1,11)%></span></p>
+      </div>
+        <hr>
+      <% }) %> 
+    <% } else { %>
+      <p>There are no blogs to display...</p>
+    <% } %> 
+    
+  </div>
+
+  <%- include("../partials/footer.ejs") %>
+</body>
+</html>
